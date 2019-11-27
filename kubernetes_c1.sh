@@ -63,4 +63,32 @@ kubeadm join 192.168.2.115:6443 --token p5up3v.x1tjprx0h9ugmuww \
 
 
 
+# Create POD/RC/RSet with yaml file
+kubectl create -f pod-definition.yml
+
+# Update POD/RC/RSet with yaml file
+kubectl apply -f pod-definition.yml
+
+# Get list of Replication Controller
+kubectl get replicationcontroller
+
+# Get list of Replica Set
+kubectl get replicaset
+
+# Update POD/RC/RSet definition
+kubectl replace -f pod-definition.yml
+
+# 
+kubectl set image replicaset/new-replica-set busybox-container=busybox
+
+# Scale Pod
+kubectl scale --replicas=5 replicaset/new-replica-set
+
+
+#Deployment Revision Record
+kubectl create -f d-definition.yml --record
+#Deployment status
+kubectl rollout status deployment/mypp-dep
+#Deployment history (for deployment created with the --record option)
+kubectl rollout history deployment/mypp-dep
 
