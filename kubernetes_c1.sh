@@ -1,5 +1,12 @@
+apt install docker.io
 
-#Install KubeAdmin
+#disable swap
+swapoff -a
+vim /etc/fstab #(comment swap record)
+#reboot
+
+
+#Install KubeAdmin in both Master and Nodes
 
 https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
 
@@ -58,9 +65,8 @@ kubeadm init --pod-network-cidr=10.244.0.0/16
 kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/2140ac876ef134e0ed5af15c65e414cf26827915/Documentation/kube-flannel.yml
 kubectl get pods --all-namespaces
 
-kubeadm join 192.168.2.115:6443 --token p5up3v.x1tjprx0h9ugmuww \
-    --discovery-token-ca-cert-hash sha256:54e6210d1d59aa853775ee8e28e3f61ddb7f2a5db686e656efd491c12348c511
-
+kubeadm join 192.168.2.115:6443 --token 8ny3t3.uj91ehh6wyw3mo5h \
+    --discovery-token-ca-cert-hash sha256:739968f705d2f586f47142c8a22e8e32530f97059556b9a36d4921c4e9adaedf
 
 
 # Create POD/RC/RSet with yaml file
@@ -91,4 +97,6 @@ kubectl create -f d-definition.yml --record
 kubectl rollout status deployment/mypp-dep
 #Deployment history (for deployment created with the --record option)
 kubectl rollout history deployment/mypp-dep
+#Deployment back to the previous deployment revision
+kubectl rollout undo deployment/mypp-dep
 
